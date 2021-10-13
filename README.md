@@ -9,6 +9,6 @@ Data Source: https://ourworldindata.org/covid-deaths
              https://ourworldindata.org/covid-vaccinations
 
 ## Project Tasks: 
-1. Clean data 
-2. Run SQL Queries 
+1. General Questions for Exploring Covid-19 Dataset (General SQL queries)
+2. Run SQl queries targeting specific Questions 
 3. 
