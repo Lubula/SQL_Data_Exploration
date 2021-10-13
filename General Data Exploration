@@ -41,5 +41,67 @@ FROM deaths
 group by location, population
 ORDER by (max(total_cases/population)*100) DESC
 
+# quick print of top 10
+location	population	total_cases	(max(total_cases/population)*100)
+Seychelles	98910.0	21799.0	22.0392275806289
+Montenegro	628051.0	135981.0	21.6512671741626
+Andorra	77354.0	15307.0	19.7882462445381
+Georgia	3979773.0	640358.0	16.0903146988534
+San Marino	34010.0	5470.0	16.0835048515143
+Czechia	10724553.0	1704003.0	15.888802078744
+Bahrain	1748295.0	275803.0	15.7755413131079
+Maldives	543620.0	85732.0	15.7705750340311
+Israel	8789776.0	1309738.0	14.9006982658034
+Serbia	6908224.0	1017798.0	14.7331354628918
 
 
+# Now we go for highest deathest deaths
+
+SELECT location, max(total_deaths)
+FROM deaths
+
+# Austria	9997.0 total deaths
+# lets get the group with the hiestrate of deaths.
+
+SELECT location, max(total_deaths)
+FROM deaths
+group by location
+ORDER by max(total_deaths) DESC
+
+# quick print out of top 10 
+Austria	9997.0
+Iran	9996.0
+Belgium	9996.0
+Bosnia and Herzegovina	9995.0
+Switzerland	9994.0
+Nepal	9994.0
+Egypt	9994.0
+France	99937.0
+Colombia	99934.0
+Tunisia	9993.0
+
+## lets clean the data 
+## Importants note: there are sections where the continate is reflected as the location (country), this affects the results.
+# In exploraing the data, otice theat  when the cotinet is null, it reflects as a location. using the ifno we us the WHERE sction in SQL query
+
+SELECT *
+FROM deaths
+WHERE continent is not NULL
+
+# so that it refects data when the continet is not reflected as location(country) will add this to eavery script for better understanding 
+
+
+SELECT location, max((total_deaths ))
+FROM deaths
+WHERE continent is not NULL
+group by location
+ORDER by max(total_deaths) DESC
+
+# quick print out 
+location	max((total_deaths ))
+Austria	9997.0
+Iran	9996.0
+Belgium	9996.0
+Bosnia and Herzegovina	9995.0
+Switzerland	9994.0
+Nepal	9994.0
