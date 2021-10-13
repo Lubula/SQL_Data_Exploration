@@ -1,0 +1,77 @@
+# Phase 2: 
+
+
+# lets now start to undersatnd covid cases by continental impact
+# we change the is not null on the where statement to get the data more accurate
+
+SELECT location, max((total_deaths))
+FROM deaths
+WHERE continent is NULL
+group by location
+ORDER by max(total_deaths) DESC
+
+# print out 
+location	max((total_deaths))
+North America	999025.0
+Europe	998662.0
+Africa	99812.0
+Oceania	998.0
+South America	997278.0
+Asia	99653.0
+World	994484.0
+European Union	99366.0
+
+
+# lets take a deep dive into the data, from the first case whats been the rate of gorwth for the cases?
+
+SELECT date, sum(new_cases)
+FROM deaths
+WHERE continent is not NULL
+GROUP by date
+
+# now lets see the rate of growth for the new cases vs new deaths growth rate.
+
+SELECT date, sum(new_cases), sum(new_deaths)
+FROM deaths
+WHERE continent is not NULL
+GROUP by date
+ORDER by 1,2
+
+# mini print out 
+date      sum(new_cases) sum(new_deaths)
+2020-01-29	589.0	2.0
+2020-01-30	2068.0	38.0
+2020-01-31	1692.0	42.0
+2020-02-01	2111.0	46.0
+2020-02-02	4749.0	103.0
+2020-02-03	3100.0	64.0
+2020-02-04	4011.0	66.0
+2020-02-05	3745.0	72.0
+2020-02-06	3162.0	70.0
+2020-02-07	3533.0	85.0 
+
+#lets add a percentile to get better understanding, the date makes it a daily groth rate .
+
+SELECT date, sum(new_cases), sum(new_deaths), sum(new_deaths)/sum(new_cases)*100
+FROM deaths
+WHERE continent is not NULL
+GROUP by date
+ORDER by 1,2
+
+date sum(new_cases) sum(new_deaths) sum(new_cases0/sum(new_deaths)*100
+2020-02-02	4749.0	103.0	2.16887765845441
+2020-02-03	3100.0	64.0	2.06451612903226
+2020-02-04	4011.0	66.0	1.64547494390426
+2020-02-05	3745.0	72.0	1.92256341789052
+
+# we can see the growth rate by looking at the results but lets calculate it with an SQL query
+# The sum of the growth rate globally 
+
+SELECT sum(new_cases), sum(new_deaths), sum(new_deaths)/sum(new_cases)*100
+FROM deaths
+WHERE continent is not NULL
+
+# mini print out 
+sum(new_cases) sum(new_deaths) sum(new_deaths)/sum(new_cases)
+238078123.0	4848677.0	2.03659073706659
+
