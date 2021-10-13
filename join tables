@@ -1,0 +1,107 @@
+Phase 3: 
+
+# we have a second table(dataset) that we havent looked at until now, the vaccinations 
+# lets just give it a look to remind ourselves 
+
+SELECT *
+FROM Vaccinations
+ORDER by 1,2
+
+
+# Having given the vaccinations table a look, now we will join the tables together
+# the location and date are similar in both tables. 
+# Lets use the join function
+
+SELECT *
+FROM Vaccinations
+JOIN deaths
+    on deaths.location = Vaccinations.location
+	AND deaths.date = Vaccinations.date
+
+# manually go through the data to cofirm it been joined.
+
+
+# having joined the tables, lets find out what is the total vaccinations per continet
+
+SELECT deaths.continent, deaths.location, deaths.population, Vaccinations.new_vaccinations
+FROM Vaccinations
+JOIN deaths
+    on deaths.location = Vaccinations.location
+	AND deaths.date = Vaccinations.date
+
+# mini print out 
+continet location population newv_vaccinations
+Europe	Ireland	4982904.0	14657.0
+Europe	Ireland	4982904.0	17330.0
+Europe	Ireland	4982904.0	13031.0
+
+
+# also need to add the where statemennt as the relsuts will be inaccurate
+# while we are ayt  it lets add, an order by statement
+
+SELECT deaths.continent, deaths.location, deaths.population, Vaccinations.new_vaccinations
+FROM Vaccinations
+JOIN deaths
+    on deaths.location = Vaccinations.location
+	AND deaths.date = Vaccinations.date
+WHERE deaths.continent is not NULL
+ORDER by 1,2,3
+
+# mini print out 
+continet location population new_vaccinations
+Africa	Uganda	47123533.0	5107.0
+Africa	Uganda	47123533.0	4516.0
+Africa	Uganda	47123533.0	1465.0
+Africa	Uganda	47123533.0	4519.0
+
+
+# lets get a bit more technical. 
+# adding the new vaccinations to add together 
+
+SELECT deaths.continent, deaths.location, deaths.population, Vaccinations.new_vaccinations,
+ sum(Vaccinations.new_vaccinations) OVER (PARTITION by deaths.location ORDER by deaths.location,
+  deaths.date)
+FROM Vaccinations
+JOIN deaths
+    on deaths.location = Vaccinations.location
+	AND deaths.date = Vaccinations.date
+WHERE deaths.continent is not NULL
+ORDER by 2, 3
+
+
+# mini print out 
+conitinet   locatio population sum(Vaccinations.new_vaccinations) OVER (PARTITION by deaths.location ORDER by deaths.location,
+  deaths.date)
+North America	Aruba	107195.0	549.0	80297.0
+North America	Aruba	107195.0	1260.0	81557.0
+North America	Aruba	107195.0		81557.0
+North America	Aruba	107195.0		81557.0
+North America	Aruba	107195.0	371.0	81928.0
+
+
+# as the name is tooooo long, I have been avoiding usig aliasing to show the code used.
+# in this case will alias to RollingPeoplevaccinated 
+
+SELECT deaths.continent, deaths.location, deaths.population, Vaccinations.new_vaccinations,
+ sum(Vaccinations.new_vaccinations) OVER (PARTITION by deaths.location ORDER by deaths.location,
+  deaths.date) as RollingPeopleVaccinnated
+FROM Vaccinations
+JOIN deaths
+    on deaths.location = Vaccinations.location
+	AND deaths.date = Vaccinations.date
+WHERE deaths.continent is not NULL
+ORDER by 2, 3
+
+# with the collected data now lets vcreat a view for this new information
+
+CREATE VIEW RollingPeopleVaccinnated as
+SELECT deaths.continent, deaths.location, deaths.population, Vaccinations.new_vaccinations,
+ sum(Vaccinations.new_vaccinations) OVER (PARTITION by deaths.location ORDER by deaths.location,
+  deaths.date) as RollingPeopleVaccinnated
+FROM Vaccinations
+JOIN deaths
+    on deaths.location = Vaccinations.location
+	AND deaths.date = Vaccinations.date
+WHERE deaths.continent is not NULL
+
+
