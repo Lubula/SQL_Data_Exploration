@@ -10,5 +10,7 @@ Data Source: https://ourworldindata.org/covid-deaths
 
 ## Project Tasks: 
 1. General Questions for Exploring Covid-19 Dataset (General SQL queries & cleaning data)
-2. Run SQl queries targeting specific Questions 
-3. 
+2. Run SQl queries targeting specific Questions  (global outlook)
+3. Join tables (create a view)
+
+Extra: added the actual database file as wel
