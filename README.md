@@ -3,7 +3,8 @@ Using DB Browser for SQl Lite (database software) to understand the Covid-19 dea
  
 In order to have corresponding data between the vaccinations and deaths, both data sets start from the 1 Jan 2021. (The vaccine came about a year after pandemic begun)
 
-Data Source: https://ourworldindata.org/covid-deaths 
+Data Source: https://ourworldindata.org/covid-deaths
+
              https://ourworldindata.org/covid-vaccinations
 
 ## Project Tasks:
