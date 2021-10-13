@@ -1,6 +1,0 @@
-# Important note
-# upon downloading the data to computer, used Goggle sheets to remove columns that will not be required
-# columns left in all_weekly_deaths.csv data set: country, region, Population, total Deaths, Covid Deaths, Expected deaths and Non covid deaths
-# columns left incountry_vaccination.csv data set:  country, date, total vaccinations, people vaccinated, people fully vaccinated, vaccines and source website
-# with a much larger dataset it would be easier to use the SQl Delete function. In this case it was much easier for me 
-# The data sets are then imported to DB Browser for SQL Lite using the import.  

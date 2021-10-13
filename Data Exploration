@@ -1,0 +1,45 @@
+# Important note
+# The data sets are then imported to DB Browser for SQL Lite using the import. 
+# loaded as tables in the database with names: deaths and vaccinations
+
+# first it just to uderstand the data, in the deaths
+# how long after new cases began did the deaths begin to show ? Lets put together the location (country), dates, populations, new cases, total cases and total deaths
+
+
+SELECT location, date, population, new_cases, total_cases, total_deaths
+FROM deaths
+
+# lets look at total cases vs total deaths (lets find the percentage)
+# a look at the likelihood of death from contracting covid in specific country
+
+SELECT location, date, total_cases, total_deaths, ((total_deaths/total_cases)*100)
+FROM deaths
+
+# focusing on south africa (where I reside), first death was recorded on the 27/03/2020, with 1170 total cases  and a death percentage of 0.085%
+# latest death toll recorded on the 12/10/2021, with 88429 total cases  and a death percentage of 3.035% (88429 total deaths)
+
+
+# Now lets look at what percentage of the popuation has got covid
+
+SELECT location, date, total_cases, population, ((total_cases/population)*100)
+FROM deaths
+
+# as of 12/10/2021: South africa has a population of 60,041,996 Million people with total cases of 2,912,938 cases, with infect rate of 4.85%
+# so what country has the highest infection rate compared to poulation? will use the max function
+
+
+SELECT location, population, max(total_cases), (max(total_cases/population)*100)
+FROM deaths
+
+# The Sychelles, stands out with an infection rate of 22%
+
+# Now if we wanted to find out which group of country had the highest infection rates? 
+# the SQL code is grouped by its location & poultion and the list oredred by the percentage of infection then placed in decending (desc)(higest to lowest)
+
+SELECT location, population, total_cases, (max(total_cases/population)*100)
+FROM deaths
+group by location, population
+ORDER by (max(total_cases/population)*100) DESC
+
+
+
